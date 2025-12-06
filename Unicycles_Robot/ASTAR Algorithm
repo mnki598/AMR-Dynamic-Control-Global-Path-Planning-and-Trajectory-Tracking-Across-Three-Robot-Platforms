@@ -1,8 +1,7 @@
 %% unicycle_astar_final.m
-% Description: Simplified skid-steer dynamics and PD tracking controller
 % Author: Mayank Pandey
 % Date: 2025
-% A* (grid) + collision-free smoothing
+% A* (grid) + collision-free smoothing +Tracking using pure pursuit
 % Self-contained, no special toolboxes required.
 clear; close all; clc;
 
