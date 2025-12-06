@@ -2,7 +2,7 @@
 % Description: Simplified skid-steer dynamics and PD tracking controller
 % Author: Mayank Pandey
 % Date: 2025
-% Note: Public demonstration version. Full implementation private.
+
 
 
 clear all; clc; close all;
