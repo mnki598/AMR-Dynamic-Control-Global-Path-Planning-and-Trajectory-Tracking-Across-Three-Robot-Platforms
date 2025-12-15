@@ -1,3 +1,8 @@
+# File: Mecanum_wheel Recorded Trajectory Tracking
+# Description: Four Mecanum wheel dynamics and PD tracking controller
+# Author: Mayank Pandey
+# Date: 2025
+# Note: Public demonstration version. Full implementation private.
 #!/usr/bin/env python3
 import rclpy
 from rclpy.node import Node
