@@ -162,3 +162,141 @@ Collision-free smoothing suitable for nonholonomic tracking
 Fully reproducible MATLAB simulation
 
 This framework serves as a baseline for mobile robot navigation, and can be extended to differential-drive robots, dynamic obstacles, or higher-level planners (e.g., MPC or sampling-based methods).
+
+
+# Skid-Steer Robot Dynamics and Trajectory Tracking Control
+
+This repository implements a dynamic model and control framework for a skid-steer (differential-drive) mobile robot performing trajectory tracking in the plane. The system combines kinematic planning, body-frame error feedback, and dynamic torque control with feedforward compensation.
+
+## 1. System Overview
+
+The robot is modeled as a planar rigid body with state variables:
+
+Pose: 
+𝜂 =[𝑥,𝑦,𝜓]^𝑇
+Body velocities: 
+ζ=[u,v,r]^𝑇
+
+where 
+u and v are the body-frame linear velocities and r is the yaw rate.
+The robot is controlled through wheel forces, which are mapped to a body wrench.
+
+### The framework supports:
+
+Nonholonomic skid-steer constraints
+
+Dynamic control (mass + Coriolis effects)
+
+Acceleration feedforward for improved tracking
+
+## 2. Reference Trajectory
+
+A circular trajectory is used as the reference:
+
+Constant radius
+
+Constant angular speed
+
+Analytically defined position, velocity, and acceleration
+
+This allows exact feedforward terms for both velocity and acceleration, enabling high-accuracy tracking evaluation.
+
+## 3. Kinematics
+
+The relationship between body velocities and inertial motion is:
+
+𝜂˙= J(ψ)ζ
+where 
+J(ψ) is the standard rotation matrix mapping body-frame velocities to the world frame.
+
+Tracking errors are transformed into the body frame, which simplifies controller design and respects the robot’s motion constraints.
+
+## 4. Dynamic Model
+The robot dynamics are expressed as:
+𝐷(𝜁)𝜁˙+𝑛_𝑣(𝜁) = 𝜏
+where:
+D is the inertia matrix
+
+𝑛_𝑣 represents Coriolis and centripetal terms
+τ=[τx,τy,τψ]^𝑇 is the commanded body wrench
+
+This model captures the essential physics of skid-steer motion without relying on wheel slip models.
+
+## 5. Control Architecture
+
+The controller follows a two-layer structure:
+
+Outer Loop – Kinematic Tracking
+
+Computes desired body velocities based on:
+
+Reference trajectory feedforward
+
+Proportional feedback on body-frame pose error
+
+For skid-steer motion:
+
+Lateral velocity is constrained to zero
+
+Lateral position error is mapped into yaw correction
+
+### Inner Loop – Dynamic Control
+A PD controller with feedforward acceleration computes the required wrench:
+
+𝜏 = 𝐷(𝜁˙𝑟𝑒𝑓+𝐾𝑑(𝜁_𝑑𝑒𝑠−𝜁))+𝑛_𝑣
+​
+This structure improves tracking performance and reduces steady-state errors, especially during curved motion.
+
+## 6. Wheel Force Allocation
+The commanded body wrench is mapped to individual wheel inputs using a wheel configuration matrix:
+𝜅=Γ^(−1)𝜏
+
+where 
+𝜅=[𝐹1,𝐹2,𝐹3,𝐹4]^𝑇
+
+ represents wheel forces.
+This enables analysis of actuator-level behavior during trajectory execution.
+
+## 7. Simulation and Visualization
+
+The simulation includes:
+
+Numerical integration of robot dynamics
+
+Real-time animation of robot motion
+
+Comparison between reference and actual trajectories
+
+Performance metrics are visualized through:
+
+Pose and velocity plots
+
+Body-frame and world-frame tracking errors
+
+Control wrench and wheel force histories
+
+## 8. Key Features
+
+Full dynamic skid-steer model
+
+Body-frame error feedback (control-oriented)
+
+Optional acceleration feedforward
+
+Nonholonomic constraint enforcement
+
+Wheel-level force computation
+
+Fully self-contained MATLAB simulation
+
+## 9. Applications
+
+This framework serves as a foundation for:
+
+Skid-steer and differential-drive robots
+
+Dynamic trajectory tracking research
+
+Extension to adaptive, robust, or nonlinear control
+
+Integration with planners (A*, MPC, etc.)
