@@ -2,7 +2,7 @@
 
 Dynamic control, global path planning, and trajectory tracking for skid-steer, unicycle, and mecanum robots.
 
-### Mecanum Wheel Robot Trajectory Tracking (Lyapunov-Based PD Control) Overview
+# Mecanum Wheel Robot Trajectory Tracking (Lyapunov-Based PD Control) Overview
 
 This repository demonstrates trajectory tracking for a mecanum-wheel mobile robot using a Lyapunov-based PD control approach. A reference trajectory is recorded from real motion data and stored in CSV format. To enable stable nonlinear control, the recorded data are filtered and interpolated to obtain smooth, time-continuous reference signals.
 
@@ -75,11 +75,11 @@ This framework can be extended to real-time experiments, adaptive or finite-time
 
 
 
-### A* Path Planning and Unicycle Tracking Simulation
+# A* Path Planning and Unicycle Tracking Simulation
 
 This repository presents a complete motion planning and control pipeline for a unicycle-type mobile robot operating in a 2D environment with static obstacles. The framework integrates grid-based A* path planning, collision-free path smoothing, and closed-loop trajectory tracking using a pure pursuit controller.
 
-# 1. Problem Description
+## 1. Problem Description
 
 The objective is to autonomously navigate a unicycle robot from a given start pose to a goal pose while avoiding obstacles. The environment contains both polygonal and circular obstacles, and the robot is modeled with nonholonomic unicycle kinematics. The solution must ensure:
 
@@ -89,15 +89,15 @@ Smooth, trackable trajectories
 
 Feasible control inputs under actuator limits
 
-# 2. Environment Modeling
+## 2. Environment Modeling
 
 The workspace is discretized into a 2D occupancy grid, where each cell represents a fixed area in the real world. Obstacles are rasterized onto the grid and inflated by a specified radius to account for the robot’s physical size and safety margin. This inflation guarantees that any path planned through free cells is collision-free in continuous space.
 
-# 3. Global Path Planning (A*)
+## 3. Global Path Planning (A*)
 
 A grid-based A* algorithm is used to compute a shortest collision-free path from start to goal. Key features include:
 
-# 4-connected or 8-connected neighborhood (optional diagonal motion)
+## 4-connected or 8-connected neighborhood (optional diagonal motion)
 
 Euclidean-distance heuristic for efficiency
 
@@ -105,7 +105,7 @@ Obstacle-aware expansion using the inflated occupancy grid
 
 The output of this stage is a discrete sequence of grid cells, which is then converted into world coordinates.
 
-# 4. Path Reconstruction and Smoothing
+## 4. Path Reconstruction and Smoothing
 
 Since raw A* paths are piecewise and not directly suitable for control, a two-step smoothing process is applied:
 
@@ -117,7 +117,7 @@ The shortened path is re-parameterized by arc length and interpolated using cubi
 
 The final planned trajectory is saved as planned_path.csv for reuse.
 
-# 5. Robot Model
+## 5. Robot Model
 
 The robot follows standard unicycle kinematics:
 
@@ -125,7 +125,7 @@ The robot follows standard unicycle kinematics:
 
 where 𝑣 and 𝜔  are the linear and angular velocities, subject to saturation limits.
 
-# 6. Trajectory Tracking Control
+## 6. Trajectory Tracking Control
 
 Trajectory tracking is achieved using a Pure Pursuit controller:
 
@@ -137,7 +137,7 @@ Linear velocity is kept nominal, while angular velocity is adjusted based on cur
 
 This controller is well-suited for nonholonomic systems and provides smooth convergence to the path. The simulation starts with a perturbed initial pose to demonstrate robustness.
 
-# 7. Performance Evaluation
+## 7. Performance Evaluation
 
 During simulation, the following metrics are recorded:
 
@@ -151,7 +151,7 @@ Root Mean Square Error (RMSE) for tracking performance
 
 Results are visualized in real time and saved to astar_unicycle_sim_results_final.mat.
 
-# 8. Key Contributions
+## 8. Key Contributions
 
 End-to-end planning and control pipeline in a single script
 
